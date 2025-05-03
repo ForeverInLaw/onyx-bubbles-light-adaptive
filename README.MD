@@ -4,6 +4,9 @@ A custom CSS style definition for the Seelen toolbar, providing a light "bubble"
 
 This file contains the YAML definition for the style, including metadata and the CSS code.
 
+!!!IMPORTANT!!!
+*   To display all menus correctly, you need to set the light theme in Windows settings
+
 ## Description
 
 As described in the metadata:

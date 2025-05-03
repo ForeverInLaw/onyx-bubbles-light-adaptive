@@ -22,9 +22,9 @@ This theme aims to provide a visually appealing and functional toolbar that chan
     *   Expands to full screen width.
     *    adopts the background color of the focused application.
     *   Item backgrounds become transparent, using hover/active colors tailored for the adaptive state.
-![light themed](https://github.com/ForeverInLaw/onyx-bubbles-light-adaptive/blob/main/light_themed.png?raw=true)
 
 ![dark themed](https://github.com/ForeverInLaw/onyx-bubbles-light-adaptive/blob/main/dark_themed.png?raw=true)
+![light themed](https://github.com/ForeverInLaw/onyx-bubbles-light-adaptive/blob/main/light_themed.png?raw=true)
 
 *   **Light Popups:** Custom styling for Seelen popups (Fast Settings, Tray, Calendar, etc.) with a light background, blur effect, rounded corners, and dark text.
 *   **Custom Scrollbar:** Styled scrollbars for scrollable areas within Kvantum components.

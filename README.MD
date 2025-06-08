@@ -1,4 +1,4 @@
-# Onyx Bubbles Light (Adaptive) ON UPDATE
+# Onyx Bubbles Light (Adaptive)
 
 A custom CSS style definition for the Seelen toolbar, providing a light "bubble" appearance in the normal state and adapting to the focused window's background color when maximized.
 

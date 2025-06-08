@@ -2,8 +2,17 @@ id: "@custom/onyx-bubbles-light-adaptive"
 metadata:
   displayName: "Onyx Bubbles Light (Adaptive)"
   author: "1Developpeur (@1Developpeur on GitHub), reworked by orgasm donor (@ForeverInLaw on GitHub)"
-  description: "Smoother visual sliding via padding animation. Bubbles/adaptive bar. BG fades in, resets instantly." 
-  tags: ['toolbar', 'light', 'rounded', 'adaptive', 'window-color', 'bubbles', 'smooth']
+  description: "Smoother visual sliding via padding animation. Bubbles/adaptive bar. BG fades in, resets instantly."
+  tags:
+    [
+      "toolbar",
+      "light",
+      "rounded",
+      "adaptive",
+      "window-color",
+      "bubbles",
+      "smooth",
+    ]
 
 styles:
   toolbar: |
@@ -173,15 +182,15 @@ styles:
 
     /* --- Maximized Window Styles --- */
 
-    html[style*="--color-focused-app-background:"] #root {
+    html[style*="--color-maximized-on-bg-background:"] #root {
         width: 100% !important;
         left: 0;
         transform: none;
         /* transition inherited */
     }
 
-    html[style*="--color-focused-app-background:"] .ft-bar {
-        background-color: var(--color-focused-app-background) !important;
+    html[style*="--color-maximized-on-bg-background:"] .ft-bar {
+        background-color: var(--color-maximized-on-bg-background) !important;
         border-radius: 0 !important;
         justify-content: space-between !important; /* Ensure space-between */
         /* Animate padding to the smaller edge value */
@@ -194,8 +203,8 @@ styles:
                     background-color var(--toolbar-transition-duration) var(--toolbar-easing-function);
     }
 
-    html[style*="--color-focused-app-background:"] .ft-bar-item {
-       color: var(--color-focused-app-foreground, var(--bubble-item-color)) !important;
+    html[style*="--color-maximized-on-bg-background:"] .ft-bar-item {
+       color: var(--color-maximized-on-bg-foreground, var(--bubble-item-color)) !important;
        background-color: transparent !important;
        border-radius: var(--toolbar-item-border-radius) !important;
        /* transition inherited */
@@ -206,11 +215,11 @@ styles:
          }
        }
     }
-    html[style*="--color-focused-app-background:"] .ft-bar-item-active {
+    html[style*="--color-maximized-on-bg-background:"] .ft-bar-item-active {
       background-color: var(--maximized-item-bg-active) !important;
     }
 
-    html[style*="--color-focused-app-background:"] .ft-bar-bg-layer-2 {
+    html[style*="--color-maximized-on-bg-background:"] .ft-bar-bg-layer-2 {
         display: none !important;
         opacity: 0 !important;
         pointer-events: none !important;

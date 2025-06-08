@@ -1,12 +1,13 @@
-id: "@custom/onyx-bubbles-light-adaptive"
+id: "@custom/onyx-bubbles-light-dark-adaptive"
 metadata:
-  displayName: "Onyx Bubbles Light (Adaptive)"
+  displayName: "Onyx Bubbles Light & Dark (Adaptive)"
   author: "1Developpeur (@1Developpeur on GitHub), reworked by orgasm donor (@ForeverInLaw on GitHub)"
-  description: "Smoother visual sliding via padding animation. Bubbles/adaptive bar. BG fades in, resets instantly."
+  description: "Smoother visual sliding via padding animation. Bubbles/adaptive bar with automatic light/dark mode."
   tags:
     [
       "toolbar",
       "light",
+      "dark",
       "rounded",
       "adaptive",
       "window-color",
@@ -17,42 +18,61 @@ metadata:
 styles:
   toolbar: |
     :root {
-      /* --- Variables --- */
-      --toolbar-width: 75vw; /* Default width of #root */
-      /* Calculate approximate padding needed to center content within 75vw */
-      /* (100vw - 75vw) / 2 = 12.5vw */
-      --toolbar-normal-padding: 12.5vw;
-      --toolbar-maximized-padding: 8px; /* Padding at screen edges when maximized */
-
-      --toolbar-item-border-radius: 10px;
-      --toolbar-border-radius: 10px;
-      --toolbar-transition-duration: 0.5s;
-      --toolbar-easing-function: cubic-bezier(0.4, 0, 0.2, 1);
-
-      /* --- Default Item Colors --- */
+      /* --- Light Mode Variables --- */
       --bubble-item-color: #000;
       --bubble-item-bg: rgba(245, 245, 245, 0.85);
       --bubble-item-bg-hover: rgba(0, 0, 0, 0.1);
       --bubble-item-bg-active: rgba(0, 0, 0, 0.15);
-
-      /* --- Maximized State Hover/Active --- */
       --maximized-item-bg-hover: rgba(255, 255, 255, 0.15);
       --maximized-item-bg-active: rgba(255, 255, 255, 0.25);
+      --popup-bg: rgba(255, 255, 255, 0.93);
+      --popup-border: rgba(0, 0, 0, 0.1);
+      --popup-text: #111;
+      --popup-hover-bg: rgba(0, 0, 0, 0.06);
+      --popup-active-bg: rgba(0, 0, 0, 0.09);
+      --popup-secondary-bg: rgba(248, 248, 248, 0.9);
+      --popup-secondary-border: rgba(0, 0, 0, 0.08);
+      --tooltip-bg: rgb(245, 245, 245);
+      --tooltip-text: #111;
 
-      /* --- Scrollbar & Popup Variables --- */
+      /* --- Common Variables --- */
+      --toolbar-width: 75vw;
+      --toolbar-normal-padding: 12.5vw;
+      --toolbar-maximized-padding: 8px;
+      --toolbar-item-border-radius: 10px;
+      --toolbar-border-radius: 10px;
+      --toolbar-transition-duration: 0.5s;
+      --toolbar-easing-function: cubic-bezier(0.4, 0, 0.2, 1);
       --scrollbar-width: 8px;
       --scrollbar-track: rgba(0, 0, 0, 0.05);
       --scrollbar-thumb: rgba(0, 0, 0, 0.35);
       --scrollbar-thumb-hover: rgba(0, 0, 0, 0.55);
       --popup-blur: 12px;
       --popup-border-radius: 12px;
-      --popup-bg-light: rgba(255, 255, 255, 0.93);
-      --popup-border-light: rgba(0, 0, 0, 0.1);
-      --popup-text-dark: #111;
-      --popup-hover-bg-light: rgba(0, 0, 0, 0.06);
-      --popup-active-bg-light: rgba(0, 0, 0, 0.09);
-      --popup-secondary-bg-light: rgba(248, 248, 248, 0.9);
-      --popup-secondary-border-light: rgba(0, 0, 0, 0.08);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        /* --- Dark Mode Variables --- */
+        --bubble-item-color: #fff;
+        --bubble-item-bg: rgba(30, 30, 30, 0.85);
+        --bubble-item-bg-hover: rgb(68, 68, 68);
+        --bubble-item-bg-active: rgb(85, 85, 85);
+        --maximized-item-bg-hover: rgba(0, 0, 0, 0.15);
+        --maximized-item-bg-active: rgba(0, 0, 0, 0.25);
+        --popup-bg: rgba(20, 20, 20, 0.93);
+        --popup-border: rgba(255, 255, 255, 0.1);
+        --popup-text: #eee;
+        --popup-hover-bg: rgba(255, 255, 255, 0.06);
+        --popup-active-bg: rgba(255, 255, 255, 0.09);
+        --popup-secondary-bg: rgba(30, 30, 30, 0.9);
+        --popup-secondary-border: rgba(255, 255, 255, 0.08);
+        --scrollbar-track: rgba(255, 255, 255, 0.05);
+        --scrollbar-thumb: rgba(255, 255, 255, 0.35);
+        --scrollbar-thumb-hover: rgba(255, 255, 255, 0.55);
+        --tooltip-bg: rgb(51, 51, 51);
+        --tooltip-text: #eee;
+      }
     }
 
     /* --- Scrollbar --- */
@@ -64,6 +84,17 @@ styles:
     .notifications, .tray-list, .userhome {
       &::-webkit-scrollbar { width: 0px; height: 0px; }
       &:hover::-webkit-scrollbar { width: var(--scrollbar-width); height: var(--scrollbar-width); }
+    }
+
+    /* --- Tooltip (Ant Design) --- */
+    body .ant-tooltip-inner {
+        background-color: var(--tooltip-bg) !important;
+        color: var(--tooltip-text) !important;
+        border-radius: 6px !important;
+        padding: 4px 8px !important;
+    }
+    body .ant-tooltip-arrow-content {
+        background-color: var(--tooltip-bg) !important;
     }
 
     /* --- Toolbar Background (Hidden by Default) --- */
@@ -78,23 +109,18 @@ styles:
     /* --- Toolbar Container (Normal State - Centered via Padding) --- */
     .ft-bar {
       display: flex;
-      /* Use space-between by default, rely on padding for centering */
       justify-content: space-between;
-      align-items: center; /* Vertically center items */
-      /* Take full width of parent (#root) */
+      align-items: center;
       width: 100%;
-      margin: 0; /* Remove auto margin */
+      margin: 0;
       gap: 4px;
       background-color: transparent;
       border-radius: 0;
-      /* Apply large padding in normal state */
       padding-left: var(--toolbar-normal-padding);
       padding-right: var(--toolbar-normal-padding);
-      box-sizing: border-box; /* Include padding in width calculation */
-      /* Animate padding and gap */
+      box-sizing: border-box;
       transition: padding var(--toolbar-transition-duration) var(--toolbar-easing-function),
                   gap var(--toolbar-transition-duration) var(--toolbar-easing-function);
-                  /* background-color transition handled in maximized state */
     }
 
     /* --- Toolbar Positioning (Normal State - Centered Bubbles) --- */
@@ -102,17 +128,15 @@ styles:
       position: absolute;
       left: 50%;
       transform: translate(-50%);
-      width: var(--toolbar-width) !important; /* Control overall width */
-      /* Animate geometry */
+      width: var(--toolbar-width) !important;
       transition: top 0.1s ease-in-out,
                   left var(--toolbar-transition-duration) var(--toolbar-easing-function),
                   transform var(--toolbar-transition-duration) var(--toolbar-easing-function),
                   width var(--toolbar-transition-duration) var(--toolbar-easing-function);
     }
 
-    /* --- Toolbar Items (Light Bubbles Style by Default) --- */
+    /* --- Toolbar Items (Bubbles Style by Default) --- */
     .ft-bar-item {
-      /* Styles are mostly unchanged, rely on container for positioning */
       display: flex;
       align-items: center;
       padding: 2px 8px;
@@ -154,12 +178,12 @@ styles:
     .wlan-selector,
     .bluetooth .bg-layer-1,
     .userhome .bg-layer-1 {
-      background-color: var(--popup-bg-light);
-      border: 1px solid var(--popup-border-light);
+      background-color: var(--popup-bg);
+      border: 1px solid var(--popup-border);
       border-radius: var(--popup-border-radius);
       backdrop-filter: blur(var(--popup-blur));
       -webkit-backdrop-filter: blur(var(--popup-blur));
-      color: var(--popup-text-dark);
+      color: var(--popup-text);
     }
      .fast-settings-power .fast-settings-item-button,
      .userhome-power-button,
@@ -173,10 +197,10 @@ styles:
      .fast-settings, .ft-bar-item-context-menu-container, .tb-context-menu-container,
      .calendar-container, .tray, .media-control, .notifications,
      .wlan-selector, .bluetooth, .userhome {
-        color: var(--popup-text-dark);
+        color: var(--popup-text);
         .slu-icon { color: inherit; fill: currentColor; }
      }
-    hr { border-top: 1px solid rgba(0, 0, 0, 0.1); }
+    hr { border-top: 1px solid var(--popup-border); }
     @keyframes rotate { /* ... */ }
 
 
@@ -186,18 +210,15 @@ styles:
         width: 100% !important;
         left: 0;
         transform: none;
-        /* transition inherited */
     }
 
     html[style*="--color-maximized-on-bg-background:"] .ft-bar {
         background-color: var(--color-maximized-on-bg-background) !important;
         border-radius: 0 !important;
-        justify-content: space-between !important; /* Ensure space-between */
-        /* Animate padding to the smaller edge value */
+        justify-content: space-between !important;
         padding-left: var(--toolbar-maximized-padding) !important;
         padding-right: var(--toolbar-maximized-padding) !important;
-        gap: 2px !important; /* Restore smaller gap */
-        /* Add transition for background-color fade-in */
+        gap: 2px !important;
         transition: padding var(--toolbar-transition-duration) var(--toolbar-easing-function),
                     gap var(--toolbar-transition-duration) var(--toolbar-easing-function),
                     background-color var(--toolbar-transition-duration) var(--toolbar-easing-function);
@@ -207,7 +228,6 @@ styles:
        color: var(--color-maximized-on-bg-foreground, var(--bubble-item-color)) !important;
        background-color: transparent !important;
        border-radius: var(--toolbar-item-border-radius) !important;
-       /* transition inherited */
 
        &.ft-bar-item-clickable {
          &:hover {
@@ -223,5 +243,4 @@ styles:
         display: none !important;
         opacity: 0 !important;
         pointer-events: none !important;
-        /* transition inherited */
     }

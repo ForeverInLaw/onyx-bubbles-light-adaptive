@@ -1,0 +1,243 @@
+id: "@custom/onyx-bubbles-light-dark-adaptive-static"
+metadata:
+  displayName: "Onyx Bubbles Light & Dark (Adaptive, Static)"
+  author: "1Developpeur (@1Developpeur on GitHub), reworked by orgasm donor (@ForeverInLaw on GitHub)"
+  description: "Smoother visual sliding via padding animation. Bubbles/adaptive bar with automatic light/dark mode. This version has the toolbar always maximized (static)."
+  tags:
+    [
+      "toolbar",
+      "light",
+      "dark",
+      "rounded",
+      "adaptive",
+      "window-color",
+      "bubbles",
+      "smooth",
+      "static",
+    ]
+
+styles:
+  toolbar: |
+    :root {
+      /* --- Light Mode Variables --- */
+      --bubble-item-color: #000;
+      --bubble-item-bg: rgba(245, 245, 245, 0.85);
+      --bubble-item-bg-hover: rgba(0, 0, 0, 0.1);
+      --bubble-item-bg-active: rgba(0, 0, 0, 0.15);
+      --maximized-item-bg-hover: rgba(255, 255, 255, 0.15);
+      --maximized-item-bg-active: rgba(255, 255, 255, 0.25);
+      --popup-bg: rgba(255, 255, 255, 0.93);
+      --popup-border: rgba(0, 0, 0, 0.1);
+      --popup-text: #111;
+      --popup-hover-bg: rgba(0, 0, 0, 0.06);
+      --popup-active-bg: rgba(0, 0, 0, 0.09);
+      --popup-secondary-bg: rgba(248, 248, 248, 0.9);
+      --popup-secondary-border: rgba(0, 0, 0, 0.08);
+      --tooltip-bg: rgb(245, 245, 245);
+      --tooltip-text: #111;
+
+      /* --- Common Variables --- */
+      --toolbar-width: 75vw;
+      --toolbar-normal-padding: 12.5vw;
+      --toolbar-maximized-padding: 8px;
+      --toolbar-item-border-radius: 10px;
+      --toolbar-border-radius: 10px;
+      --toolbar-transition-duration: 0.5s;
+      --toolbar-easing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      --scrollbar-width: 8px;
+      --scrollbar-track: rgba(0, 0, 0, 0.05);
+      --scrollbar-thumb: rgba(0, 0, 0, 0.35);
+      --scrollbar-thumb-hover: rgba(0, 0, 0, 0.55);
+      --popup-blur: 12px;
+      --popup-border-radius: 12px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        /* --- Dark Mode Variables --- */
+        --bubble-item-color: #fff;
+        --bubble-item-bg: rgba(30, 30, 30, 0.85);
+        --bubble-item-bg-hover: rgb(68, 68, 68);
+        --bubble-item-bg-active: rgb(85, 85, 85);
+        --maximized-item-bg-hover: rgba(0, 0, 0, 0.15);
+        --maximized-item-bg-active: rgba(0, 0, 0, 0.25);
+        --popup-bg: rgba(20, 20, 20, 0.93);
+        --popup-border: rgba(255, 255, 255, 0.1);
+        --popup-text: #eee;
+        --popup-hover-bg: rgba(255, 255, 255, 0.06);
+        --popup-active-bg: rgba(255, 255, 255, 0.09);
+        --popup-secondary-bg: rgba(30, 30, 30, 0.9);
+        --popup-secondary-border: rgba(255, 255, 255, 0.08);
+        --scrollbar-track: rgba(255, 255, 255, 0.05);
+        --scrollbar-thumb: rgba(255, 255, 255, 0.35);
+        --scrollbar-thumb-hover: rgba(255, 255, 255, 0.55);
+        --tooltip-bg: rgb(51, 51, 51);
+        --tooltip-text: #eee;
+      }
+    }
+
+    /* --- Scrollbar --- */
+    ::-webkit-scrollbar { width: var(--scrollbar-width); height: var(--scrollbar-width); }
+    ::-webkit-scrollbar-track { background: var(--scrollbar-track); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; transition: background 0.2s ease; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+    * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
+    .notifications, .tray-list, .userhome {
+      &::-webkit-scrollbar { width: 0px; height: 0px; }
+      &:hover::-webkit-scrollbar { width: var(--scrollbar-width); height: var(--scrollbar-width); }
+    }
+
+    /* --- Tooltip (Ant Design) --- */
+    body .ant-tooltip-inner {
+        background-color: var(--tooltip-bg) !important;
+        color: var(--tooltip-text) !important;
+        border-radius: 6px !important;
+        padding: 4px 8px !important;
+    }
+    body .ant-tooltip-arrow-content {
+        background-color: var(--tooltip-bg) !important;
+    }
+
+    /* --- Toolbar Background (Hidden by Default) --- */
+    .ft-bar-bg-layer-1 { display: none !important; }
+    .ft-bar-bg-layer-2 {
+      display: none !important;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--toolbar-transition-duration) var(--toolbar-easing-function);
+    }
+
+    /* --- Toolbar Container (Normal State - Centered via Padding) --- */
+    .ft-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin: 0;
+      gap: 4px;
+      background-color: transparent;
+      border-radius: 0;
+      padding-left: var(--toolbar-maximized-padding);
+      padding-right: var(--toolbar-maximized-padding);
+      box-sizing: border-box;
+      transition: gap var(--toolbar-transition-duration) var(--toolbar-easing-function);
+    }
+
+    /* --- Toolbar Positioning (Normal State - Centered Bubbles) --- */
+    #root {
+      position: absolute;
+      left: 0;
+      transform: none;
+      width: 100% !important;
+      transition: top 0.1s ease-in-out;
+    }
+
+    /* --- Toolbar Items (Bubbles Style by Default) --- */
+    .ft-bar-item {
+      display: flex;
+      align-items: center;
+      padding: 2px 8px;
+      margin: 0;
+      min-height: 22px;
+      border-radius: var(--toolbar-item-border-radius);
+      color: var(--bubble-item-color);
+      background-color: var(--bubble-item-bg);
+      transition: color var(--toolbar-transition-duration) var(--toolbar-easing-function),
+                  background-color var(--toolbar-transition-duration) var(--toolbar-easing-function),
+                  border-radius var(--toolbar-transition-duration) var(--toolbar-easing-function);
+
+      .slu-icon, .ft-bar-item-content {
+        color: inherit;
+        fill: currentColor;
+        transition: color var(--toolbar-transition-duration) var(--toolbar-easing-function),
+                    fill var(--toolbar-transition-duration) var(--toolbar-easing-function);
+      }
+      img { color: initial; fill: initial; }
+
+      &.ft-bar-item-clickable {
+        &:hover {
+          background-color: var(--bubble-item-bg-hover);
+        }
+      }
+    }
+    .ft-bar-item-active {
+      background-color: var(--bubble-item-bg-active);
+    }
+
+    /* --- Popups --- */
+    .fast-settings .fast-settings-bg-layer-1,
+    .ft-bar-item-context-menu-container .bg-layer-1,
+    .tb-context-menu-container .bg-layer-1,
+    .calendar-container .bg-layer-1,
+    .tray .tray-bg-layer-1,
+    .media-control .bg-layer-1,
+    .notifications .bg-layer-1,
+    .wlan-selector,
+    .bluetooth .bg-layer-1,
+    .userhome .bg-layer-1 {
+      background-color: var(--popup-bg);
+      border: 1px solid var(--popup-border);
+      border-radius: var(--popup-border-radius);
+      backdrop-filter: blur(var(--popup-blur));
+      -webkit-backdrop-filter: blur(var(--popup-blur));
+      color: var(--popup-text);
+    }
+     .fast-settings-power .fast-settings-item-button,
+     .userhome-power-button,
+     .userhome-profile-container,
+     .notifications .notification {
+       border-radius: 8px;
+     }
+     .userhome-file, .userhome-seelen-option-item, .tb-context-menu-item, .tray-item {
+        border-radius: 6px;
+     }
+     .fast-settings, .ft-bar-item-context-menu-container, .tb-context-menu-container,
+     .calendar-container, .tray, .media-control, .notifications,
+     .wlan-selector, .bluetooth, .userhome {
+        color: var(--popup-text);
+        .slu-icon { color: inherit; fill: currentColor; }
+     }
+    hr { border-top: 1px solid var(--popup-border); }
+    @keyframes rotate { /* ... */ }
+
+
+    /* --- Maximized Window Styles --- */
+
+    html[style*="--color-maximized-on-bg-background:"] #root {
+        width: 100% !important;
+        left: 0;
+        transform: none;
+    }
+
+    html[style*="--color-maximized-on-bg-background:"] .ft-bar {
+        background-color: var(--color-maximized-on-bg-background) !important;
+        border-radius: 0 !important;
+        justify-content: space-between !important;
+        padding-left: var(--toolbar-maximized-padding) !important;
+        padding-right: var(--toolbar-maximized-padding) !important;
+        gap: 2px !important;
+        transition: padding var(--toolbar-transition-duration) var(--toolbar-easing-function),
+                    gap var(--toolbar-transition-duration) var(--toolbar-easing-function),
+                    background-color var(--toolbar-transition-duration) var(--toolbar-easing-function);
+    }
+
+    html[style*="--color-maximized-on-bg-background:"] .ft-bar-item {
+       color: var(--color-maximized-on-bg-foreground, var(--bubble-item-color)) !important;
+       background-color: transparent !important;
+       border-radius: var(--toolbar-item-border-radius) !important;
+
+       &.ft-bar-item-clickable {
+         &:hover {
+           background-color: var(--maximized-item-bg-hover) !important;
+         }
+       }
+    }
+    html[style*="--color-maximized-on-bg-background:"] .ft-bar-item-active {
+      background-color: var(--maximized-item-bg-active) !important;
+    }
+
+    html[style*="--color-maximized-on-bg-background:"] .ft-bar-bg-layer-2 {
+        display: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
